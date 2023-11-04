@@ -20,8 +20,18 @@ contract lottery{
     
     }
 
-    function pickWinner() public {
+    function pickWinner() public restricted {
        uint index= random()% Players.length;
         payable(address(uint160(Players[index]))).transfer(address(this).balance);
+    }
+
+    modifier restricted(){
+    require(msg.sender == manager); 
+    _;
+
+    }
+
+    function getplayers()public view returns (address[]memory){
+       return  Players;
     }
 }
